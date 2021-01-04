@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.e_commerce">
+    package="com.example.e_commerce_admin">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".utils.App"
+        android:name="com.example.e_commerce_admin.utils.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name="com.example.e_commerce_admin.activity.SplashActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,30 +27,30 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".activity.OrderActivity" />
-        <activity android:name=".activity.ProductRecommendListActivity" />
-        <activity android:name=".activity.AddProductRecommendListActivity" />
-        <activity android:name=".activity.ProductDetailActivity" />
-        <activity android:name=".activity.Brand_edittivity" />
-        <activity android:name=".activity.BrandActivity" />
-        <activity android:name=".activity.ProductListActivity" />
-        <activity android:name=".activity.DemoActivity" />
-        <activity android:name=".activity.Banner_Slider_Add_Activity" />
-        <activity android:name=".activity.BannerActivity" />
-        <activity android:name=".activity.Category_Activity" />
+        <activity android:name="com.example.e_commerce_admin.activity.OrderActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.ProductRecommendListActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.AddProductRecommendListActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.ProductDetailActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.Brand_edittivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.BrandActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.ProductListActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.DemoActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.Banner_Slider_Add_Activity" />
+        <activity android:name="com.example.e_commerce_admin.activity.BannerActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.Category_Activity" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.SuperCategoryActivity" />
-        <activity android:name=".activity.DashBoardActivity" />
-        <activity android:name=".activity.AddSuperCategoryActivity" />
-        <activity android:name=".activity.AddProductActivity" />
-        <activity android:name=".activity.Category_Add_Activity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.SuperCategoryActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.DashBoardActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.AddSuperCategoryActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.AddProductActivity" />
+        <activity android:name="com.example.e_commerce_admin.activity.Category_Add_Activity" />
+        <activity android:name="com.example.e_commerce_admin.activity.MainActivity" />
 
         <service
-            android:name=".service.MyFireBaseMessagingService"
+            android:name="com.example.e_commerce_admin.service.MyFireBaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
