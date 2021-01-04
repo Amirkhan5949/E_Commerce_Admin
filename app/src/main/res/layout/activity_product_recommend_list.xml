@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".activity.AddProductRecommendListActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/back"
+            android:id="@+id/iv_back"
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_marginRight="52dp"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Recommended Products"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:fontFamily="@font/roboto"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <EditText
+        android:layout_margin="16dp"
+         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the text"
+        android:id="@+id/et_text"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/bold"/>
+
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+         android:layout_marginBottom="16dp"
+        android:background="@drawable/bnn_bg_primary"
+        android:gravity="center"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+
+
+</LinearLayout>

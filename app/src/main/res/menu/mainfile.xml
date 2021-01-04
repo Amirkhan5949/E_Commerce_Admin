@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="Super Category"
+        android:icon="@drawable/supercat"
+        android:id="@+id/supercategory"/>
+
+    <item
+        android:title="Category"
+        android:icon="@drawable/category"
+        android:id="@+id/category"/>
+
+
+    <item
+        android:title="Brand"
+        android:icon="@drawable/brand"
+        android:id="@+id/brand"/>
+
+    <item
+        android:title="Order"
+        android:id="@+id/order"
+        android:icon="@drawable/order"/>
+    <item
+        android:title="Product"
+        android:icon="@drawable/pro"
+        android:id="@+id/product"/>
+
+    <item
+        android:title="Product list"
+        android:icon="@drawable/productlist"
+        android:id="@+id/productlist"/>
+
+    <item
+        android:title="loggout"
+        android:icon="@drawable/logout"
+        android:id="@+id/logout"/>
+
+</menu>

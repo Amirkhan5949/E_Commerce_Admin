@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.e_commerce">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".utils.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activity.SplashActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".activity.OrderActivity" />
+        <activity android:name=".activity.ProductRecommendListActivity" />
+        <activity android:name=".activity.AddProductRecommendListActivity" />
+        <activity android:name=".activity.ProductDetailActivity" />
+        <activity android:name=".activity.Brand_edittivity" />
+        <activity android:name=".activity.BrandActivity" />
+        <activity android:name=".activity.ProductListActivity" />
+        <activity android:name=".activity.DemoActivity" />
+        <activity android:name=".activity.Banner_Slider_Add_Activity" />
+        <activity android:name=".activity.BannerActivity" />
+        <activity android:name=".activity.Category_Activity" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.SuperCategoryActivity" />
+        <activity android:name=".activity.DashBoardActivity" />
+        <activity android:name=".activity.AddSuperCategoryActivity" />
+        <activity android:name=".activity.AddProductActivity" />
+        <activity android:name=".activity.Category_Add_Activity" />
+        <activity android:name=".activity.MainActivity" />
+
+        <service
+            android:name=".service.MyFireBaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="CLOUDINARY_URL"
+            android:value="cloudinary://719781547994928:Qb5Tzym30pOHoc2gcpdvPnd69GA@dants4vbg" />
+    </application>
+
+</manifest>
