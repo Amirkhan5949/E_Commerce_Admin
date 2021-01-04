@@ -6,7 +6,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.e_commerce"
+        applicationId "com.example.e_commerce_admin"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
