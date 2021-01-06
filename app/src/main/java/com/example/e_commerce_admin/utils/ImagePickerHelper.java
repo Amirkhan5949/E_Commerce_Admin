@@ -32,6 +32,22 @@ public class ImagePickerHelper {
           );
       }
 
+
+    public  static ImagePicker getInstance(final Activity activity,int x,int y){
+        return new ImagePicker(activity, /* activity non null*/
+                null, /* fragment nullable*/
+                new OnImagePickedListener() {
+                    @Override
+                    public void onImagePicked(Uri imageUri) {
+                        UCrop.of(imageUri, getTempUri())
+                                .withAspectRatio(x, y)
+                                .start(activity);
+                    }
+                }
+
+        );
+    }
+
     public  static ImagePicker getInstance(final Activity activity,OnImagePickedListener onImagePickedListener){
         return new ImagePicker(activity, /* activity non null*/
                 null, /* fragment nullable*/

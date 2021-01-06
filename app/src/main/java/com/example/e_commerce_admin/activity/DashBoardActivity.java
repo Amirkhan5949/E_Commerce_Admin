@@ -103,6 +103,11 @@ public class DashBoardActivity extends AppCompatActivity {
                         DashBoardActivity.this.startActivity(intent4);
                         break;
 
+                    case R.id.banner:
+                        Intent intent8 = new Intent(DashBoardActivity.this, BannerActivity.class);
+                        DashBoardActivity.this.startActivity(intent8);
+                        break;
+
                     case R.id.order:
                         Intent intent6 = new Intent(DashBoardActivity.this, OrderActivity.class);
                         DashBoardActivity.this.startActivity(intent6);

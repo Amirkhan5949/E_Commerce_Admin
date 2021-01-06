@@ -10,6 +10,10 @@
         android:icon="@drawable/category"
         android:id="@+id/category"/>
 
+    <item
+        android:title="Banner"
+        android:icon="@drawable/brand"
+        android:id="@+id/banner"/>
 
     <item
         android:title="Brand"

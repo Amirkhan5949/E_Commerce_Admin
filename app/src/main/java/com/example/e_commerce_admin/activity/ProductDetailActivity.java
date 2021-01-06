@@ -320,7 +320,7 @@ public class ProductDetailActivity extends AppCompatActivity  {
         tv_price.setText("₹"+product.getSelling_price());
         int a=((Integer.parseInt(product.getMrp_price())-Integer.parseInt(product.getSelling_price()))*100)
                 /Integer.parseInt(product.getMrp_price());
-        ṭv_offer.setText(Integer.parseInt(product.getMrp_price())-Integer.parseInt(product.getSelling_price()));
+        ṭv_offer.setText(""+(Integer.parseInt(product.getMrp_price())-Integer.parseInt(product.getSelling_price())));
         tv_SellingPrice.setText("₹"+a+"");
         tv_mrp.setText("₹"+product.getMrp_price()+"");
         tv_detail.setText(product.getDetails());

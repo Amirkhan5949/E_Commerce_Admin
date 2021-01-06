@@ -92,7 +92,7 @@ public class Banner_Slider_Add_Activity extends AppCompatActivity implements Vie
         tv_save.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         iv_edit_profile.setOnClickListener(this);
-        imagePicker = ImagePickerHelper.getInstance(this);
+        imagePicker = ImagePickerHelper.getInstance(this,16,9);
     }
 
     @Override
@@ -181,7 +181,7 @@ public class Banner_Slider_Add_Activity extends AppCompatActivity implements Vie
                     map.put(FirebaseConstants.Banner_Slider.image_format, resultData.get("format"));
 
                     DatabaseReference databaseReference;
-                    if (type.equals("type")){
+                    if (type.equals("add")){
                         databaseReference=reference;
                     }else {
                         databaseReference=FirebaseDatabase.getInstance().getReference()
