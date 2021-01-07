@@ -87,7 +87,7 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
             id = getIntent().getStringExtra("id");
             category = gson.fromJson(getIntent().getStringExtra("Category"), Category.class);
 
-            Log.i("fdsfdfdf", "onCreate: " + category.toString());
+
             et_name.setText(category.getName());
             Picasso.get().load(category.getImage()).into(iv_img);
         }
@@ -119,7 +119,7 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
             }
         });
 
-        imagePicker = ImagePickerHelper.getInstance(this);
+        imagePicker = ImagePickerHelper.getInstance(this,11,16);
     }
 
     private void getSuperCategory() {

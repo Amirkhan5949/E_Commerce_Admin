@@ -59,7 +59,7 @@ public class Brand_Adapter extends FirebaseRecyclerAdapter<Brand,Brand_Adapter.B
                 Intent intent=new Intent(holder.tv_edit.getContext(), Brand_edittivity.class);
                 intent.putExtra("type","edit");
                 intent.putExtra("id",id);
-                intent.putExtra("Category", gson.toJson(model));
+                intent.putExtra("Brand", gson.toJson(model));
                 holder.tv_edit.getContext().startActivity(intent);
             }
         });
