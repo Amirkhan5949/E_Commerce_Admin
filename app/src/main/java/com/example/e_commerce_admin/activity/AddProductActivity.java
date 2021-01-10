@@ -707,6 +707,7 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(AddProductActivity.this, "Product Added", Toast.LENGTH_SHORT).show();
                                 loader.dismiss();
+                                finish();
                             }
                         });
             }
