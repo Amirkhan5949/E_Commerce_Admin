@@ -321,7 +321,7 @@
 
                 <TextView
                     android:visibility="gone"
-                    android:id="@+id/tv_NoProductFound"
+                    android:id="@+id/tv_data"
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:layout_marginRight="30dp"
@@ -331,18 +331,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/green"
-                    android:text="No product found" />
+                    android:textColor="@color/colorDarkblue"
+                    android:text="Sorry No Data Found" />
 
                 <ProgressBar
                     app:layout_anchorGravity="center"
                     android:layout_centerHorizontal="true"
                     android:elevation="200dp"
-                    android:indeterminateTint="@color/green"
+                    android:indeterminateTint="@color/colorDarkblue"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="200dp"
-                    android:id="@+id/loader"/>
+                    android:id="@+id/progress"/>
+
+
 
 
             </RelativeLayout>
@@ -356,6 +358,7 @@
 
 
     </LinearLayout>
+
 
 
 

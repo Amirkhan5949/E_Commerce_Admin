@@ -21,9 +21,8 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    RecyclerView rv_dashboard;
-
-    View view;
+   private RecyclerView rv_dashboard;
+   private   View view;
 
     public HomeFragment() {
         // Required empty public constructor

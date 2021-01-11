@@ -5,6 +5,16 @@ public class Order {
     String ordered_mrp_price;
     String ordered_selling_price;
     String payment_type;
+    String order_status;
+
+    public String getOrder_status() {
+        return order_status;
+    }
+
+    public void setOrder_status(String order_status) {
+        this.order_status = order_status;
+    }
+
     int quantity;
     long time;
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,21 +41,17 @@ public class DashBoardActivity extends AppCompatActivity {
     private Order_Adapter adapter;
     private RecyclerView rv_order;
     private Toolbar toolbar;
-
+    private ProgressBar  progress;
     private ActionBarDrawerToggle toggle;
 
-    private TextView textView1;
-    private TextView textView2;
+    private TextView textView1,tv_data,textView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
 
-        toolbar = findViewById(R.id.toolbar);
-        rv_order = findViewById(R.id.rv_order);
-        drawerLayout = findViewById(R.id.drawer);
-        navigationView = findViewById(R.id.navigation);
+        init();
 
 
         rv_order.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -63,7 +60,12 @@ public class DashBoardActivity extends AppCompatActivity {
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("Order"), Order.class)
                         .build();
 
-        adapter = new Order_Adapter(options, this);
+        adapter = new Order_Adapter(options,this,progress, new Order_Adapter.ClickCallBack() {
+            @Override
+            public void count(int i) {
+
+            }
+        });
         rv_order.setAdapter(adapter);
 
 
@@ -149,6 +151,15 @@ public class DashBoardActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void init() {
+        toolbar = findViewById(R.id.toolbar);
+        rv_order = findViewById(R.id.rv_order);
+        drawerLayout = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.navigation);
+        progress = findViewById(R.id.progress);
+        tv_data=findViewById(R.id.tv_data);
     }
 
 

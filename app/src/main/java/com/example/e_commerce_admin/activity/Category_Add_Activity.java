@@ -114,8 +114,16 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
         iv_edit_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (setUpPermission(Category_Add_Activity.this))
-                    imagePicker.choosePicture(true /*show camera intents*/);
+                if (setUpPermission(Category_Add_Activity.this)){
+                    if (type.equals("add"))
+                        reference = reference.push();
+                    else {
+                        reference = FirebaseDatabase.getInstance().getReference()
+                                .child(FirebaseConstants.Category.key)
+                                .child(id);
+                    }
+                }
+                imagePicker.choosePicture(true /*show camera intents*/);
             }
         });
 
@@ -271,17 +279,17 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
                 public void onSuccess(String requestId, Map resultData) {
                     // your code here
 
-                    DatabaseReference databaseReference;
-                    if (type.equals("add"))
-                        databaseReference = reference.push();
-                    else {
-                        databaseReference = FirebaseDatabase.getInstance().getReference()
-                                .child(FirebaseConstants.Category.key)
-                                .child(id);
-                    }
+//                    DatabaseReference databaseReference;
+//                    if (type.equals("add"))
+//                        databaseReference = reference.push();
+//                    else {
+//                        databaseReference = FirebaseDatabase.getInstance().getReference()
+//                                .child(FirebaseConstants.Category.key)
+//                                .child(id);
+//                    }
 
                     Map<String, Object> map = new HashMap<>();
-                    map.put(FirebaseConstants.Category.category_id,databaseReference.getKey());
+                    map.put(FirebaseConstants.Category.category_id,reference.getKey());
                     map.put(FirebaseConstants.Category.super_category, list.get(selecteditem).getName());
                     map.put(FirebaseConstants.Category.super_id, list.get(selecteditem).getSuper_category_id());
                     map.put(FirebaseConstants.Category.name, et_name.getText().toString());
@@ -291,7 +299,7 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
 
 
 
-                    databaseReference.updateChildren(map)
+                    reference.updateChildren(map)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

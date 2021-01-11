@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.e_commerce_admin.R;
 import com.example.e_commerce_admin.adapter.Order_Adapter;
@@ -19,6 +21,8 @@ public class OrderActivity extends AppCompatActivity {
    private RecyclerView order_recycler;
     private Order_Adapter adapter;
     private ImageView iv_back;
+    private ProgressBar progress;
+    private TextView tv_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,9 @@ public class OrderActivity extends AppCompatActivity {
 
         order_recycler=findViewById(R.id.order_recycler);
         iv_back=findViewById(R.id.iv_back);
+        progress=findViewById(R.id.progress);
+        tv_data=findViewById(R.id.tv_data);
+
 
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +49,14 @@ public class OrderActivity extends AppCompatActivity {
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("Order"), Order.class)
                         .build();
 
-        adapter=new Order_Adapter(options,this);
+        adapter=new Order_Adapter(options,this,progress, new Order_Adapter.ClickCallBack() {
+            @Override
+            public void count(int i) {
+                if (i==0){
+                    tv_data.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         order_recycler.setAdapter(adapter);
 
     }

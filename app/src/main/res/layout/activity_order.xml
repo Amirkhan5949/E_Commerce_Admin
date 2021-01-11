@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +9,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
+        android:id="@+id/toolbar"
         android:background="@color/white"
         android:layout_height="56dp">
 
@@ -33,10 +34,37 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/toolbar"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/order_recycler"/>
+    <ProgressBar
+        app:layout_anchorGravity="center"
+        android:layout_centerHorizontal="true"
+        android:elevation="200dp"
+        android:indeterminateTint="@color/colorDarkblue"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="200dp"
+        android:id="@+id/progress"/>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_data"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/colorDarkblue"
+        android:text="Sorry No Data Found" />
 
 
-</LinearLayout>
+
+
+</RelativeLayout>

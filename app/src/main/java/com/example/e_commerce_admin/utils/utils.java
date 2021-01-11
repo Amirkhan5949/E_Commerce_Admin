@@ -14,6 +14,8 @@ public class utils {
     public static final String description="he is awe";
 
 
+
+
      public static int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -21,9 +23,9 @@ public class utils {
         display.getSize(size);
         return size.x;
 
-//mayank
 
     }
+
 
     public static int dpToPx(Context c, int dp) {
         Resources r = c.getResources();
