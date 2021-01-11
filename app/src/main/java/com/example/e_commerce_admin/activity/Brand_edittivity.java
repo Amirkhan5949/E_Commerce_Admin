@@ -69,7 +69,7 @@ public class Brand_edittivity extends AppCompatActivity implements View.OnClickL
             id = getIntent().getStringExtra("id");
             brand = gson.fromJson(getIntent().getStringExtra("Brand"), Brand.class);
 
-            Log.i("fdsfdfdf", "onCreate: " + brand.toString());
+
                 et_name.setText(brand.getName());
             Picasso.get().load(brand.getImage()).into(iv_img);
         }
