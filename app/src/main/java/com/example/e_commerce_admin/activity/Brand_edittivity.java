@@ -69,9 +69,12 @@ public class Brand_edittivity extends AppCompatActivity implements View.OnClickL
             id = getIntent().getStringExtra("id");
             brand = gson.fromJson(getIntent().getStringExtra("Brand"), Brand.class);
 
-
-                et_name.setText(brand.getName());
+            et_name.setText(brand.getName());
             Picasso.get().load(brand.getImage()).into(iv_img);
+            reference = reference.child(id);
+        }
+        else {
+            reference = reference.push();
         }
 
 
@@ -176,27 +179,20 @@ public class Brand_edittivity extends AppCompatActivity implements View.OnClickL
                 public void onSuccess(String requestId, Map resultData) {
                     // your code here
 
-                    DatabaseReference databaseReference;
-                    if (type.equals("add"))
-                        databaseReference = reference.push();
-                    else {
-                        databaseReference = FirebaseDatabase.getInstance().getReference()
-                                .child(FirebaseConstants.Brand.key)
-                                .child(id);
-                    }
 
 
                     Map<String,Object> map = new HashMap<>();
                     map.put(FirebaseConstants.Brand.name,et_name.getText().toString());
-                    map.put(FirebaseConstants.Brand.brand_id,databaseReference.getKey() );
+                    map.put(FirebaseConstants.Brand.brand_id,reference.getKey());
                     map.put(FirebaseConstants.Brand.image,resultData.get("secure_url"));
                     map.put(FirebaseConstants.Brand.image_format,resultData.get("format"));
 
-                    databaseReference.updateChildren(map)
+                    reference.updateChildren(map)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     loader.dismiss();
+                                    finish();
                                     Toast.makeText(Brand_edittivity.this, "brand updated...", Toast.LENGTH_SHORT).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -232,8 +228,8 @@ public class Brand_edittivity extends AppCompatActivity implements View.OnClickL
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             loader.dismiss();
+                            finish();
                             Toast.makeText(Brand_edittivity.this, "brand Updated...", Toast.LENGTH_SHORT).show();
-
                         }
                     });
         }

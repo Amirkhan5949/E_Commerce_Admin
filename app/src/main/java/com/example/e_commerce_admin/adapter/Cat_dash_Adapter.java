@@ -55,6 +55,7 @@ public class Cat_dash_Adapter extends FirebaseRecyclerAdapter<Category,Cat_dash_
                 intent.putExtra("id",id);
                 intent.putExtra("Category", gson.toJson(model));
                 holder.tv_edit.getContext().startActivity(intent);
+                Log.i("sdklclksd", "onClick: "+id);
             }
         });
 

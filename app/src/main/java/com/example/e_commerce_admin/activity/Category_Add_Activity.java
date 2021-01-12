@@ -90,6 +90,14 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
 
             et_name.setText(category.getName());
             Picasso.get().load(category.getImage()).into(iv_img);
+
+
+            reference = FirebaseDatabase.getInstance().getReference()
+                    .child(FirebaseConstants.Category.key)
+                    .child(id);
+        }
+        else {
+            reference = reference.push();
         }
 
         getSuperCategory();
@@ -115,15 +123,8 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View view) {
                 if (setUpPermission(Category_Add_Activity.this)){
-                    if (type.equals("add"))
-                        reference = reference.push();
-                    else {
-                        reference = FirebaseDatabase.getInstance().getReference()
-                                .child(FirebaseConstants.Category.key)
-                                .child(id);
-                    }
+                    imagePicker.choosePicture(true /*show camera intents*/);
                 }
-                imagePicker.choosePicture(true /*show camera intents*/);
             }
         });
 
@@ -277,16 +278,7 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
 
                 @Override
                 public void onSuccess(String requestId, Map resultData) {
-                    // your code here
 
-//                    DatabaseReference databaseReference;
-//                    if (type.equals("add"))
-//                        databaseReference = reference.push();
-//                    else {
-//                        databaseReference = FirebaseDatabase.getInstance().getReference()
-//                                .child(FirebaseConstants.Category.key)
-//                                .child(id);
-//                    }
 
                     Map<String, Object> map = new HashMap<>();
                     map.put(FirebaseConstants.Category.category_id,reference.getKey());
@@ -304,6 +296,7 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     loader.dismiss();
+                                    finish();
                                     Toast.makeText(Category_Add_Activity.this, "Category added...", Toast.LENGTH_SHORT).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -325,13 +318,15 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
                     // your code here
                     Log.i("sdhfbdfed", "onSuccess: " + error.getDescription());
                 }
-            })
-                    .dispatch();
+            }).dispatch();;
+
 
         } else {
             Map<String, Object> map = new HashMap<>();
+            map.put(FirebaseConstants.Category.category_id,reference.getKey());
+            map.put(FirebaseConstants.Category.super_category, list.get(selecteditem).getName());
+            map.put(FirebaseConstants.Category.super_id, list.get(selecteditem).getSuper_category_id());
             map.put(FirebaseConstants.Category.name, et_name.getText().toString());
-            map.put(FirebaseConstants.Category.category_id, reference.getKey());
 
             FirebaseDatabase.getInstance().getReference()
                     .child(FirebaseConstants.Category.key)
@@ -341,8 +336,8 @@ public class Category_Add_Activity extends AppCompatActivity implements View.OnC
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             loader.dismiss();
+                            finish();
                             Toast.makeText(Category_Add_Activity.this, "category Updated...", Toast.LENGTH_SHORT).show();
-
                         }
                     });
         }

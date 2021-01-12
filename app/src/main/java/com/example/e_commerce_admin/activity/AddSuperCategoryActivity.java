@@ -42,7 +42,7 @@ import static com.example.e_commerce_admin.utils.PermissionHelper.setUpPermissio
 
 public class AddSuperCategoryActivity extends AppCompatActivity implements View.OnClickListener {
 
-   private ImageView iv_edit_profile, iv_back;
+    private ImageView iv_edit_profile, iv_back;
     private ImagePicker imagePicker;
     private CircleImageView iv_img;
     private TextView tv_save;
@@ -52,7 +52,7 @@ public class AddSuperCategoryActivity extends AppCompatActivity implements View.
 
     private Loader loader;
     private UploadRequest imageRequest;
-    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(FirebaseConstants.SuperCategory.key).push();
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(FirebaseConstants.SuperCategory.key);
     private SuperCategory superCategory;
     private Gson gson = new Gson();
 
@@ -73,6 +73,10 @@ public class AddSuperCategoryActivity extends AppCompatActivity implements View.
 
             et_name.setText(superCategory.getName());
             Picasso.get().load(superCategory.getImage()).into(iv_img);
+            reference = reference.child(id);
+        }
+        else {
+            reference = reference.push();
         }
 
 
@@ -190,21 +194,14 @@ public class AddSuperCategoryActivity extends AppCompatActivity implements View.
                     map.put(FirebaseConstants.SuperCategory.image, resultData.get("secure_url"));
                     map.put(FirebaseConstants.SuperCategory.image_format, resultData.get("format"));
 
-                    DatabaseReference databaseReference;
-                    if(type.equals("add"))
-                          databaseReference = reference;
-                    else
-                          databaseReference =  FirebaseDatabase.getInstance().getReference()
-                                  .child(FirebaseConstants.SuperCategory.key)
-                                  .child(id);
 
 
-
-                    databaseReference.updateChildren(map)
+                    reference.updateChildren(map)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     loader.dismiss();
+                                    finish();
                                     Toast.makeText(AddSuperCategoryActivity.this, "Super category added...", Toast.LENGTH_SHORT).show();
                                 }
                             })
@@ -231,21 +228,18 @@ public class AddSuperCategoryActivity extends AppCompatActivity implements View.
         else {
 
             Map<String, Object> map = new HashMap<>();
-
             map.put(FirebaseConstants.SuperCategory.name, et_name.getText().toString());
             map.put(FirebaseConstants.SuperCategory.super_category_id, reference.getKey());
 
 
-            FirebaseDatabase.getInstance().getReference()
-                    .child(FirebaseConstants.SuperCategory.key)
-                    .child(id)
+            reference
                     .updateChildren(map)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             loader.dismiss();
+                            finish();
                             Toast.makeText(AddSuperCategoryActivity.this, "Super category Updated...", Toast.LENGTH_SHORT).show();
-
                         }
                     });
 
