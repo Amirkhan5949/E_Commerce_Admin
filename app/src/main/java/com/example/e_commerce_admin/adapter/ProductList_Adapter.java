@@ -43,6 +43,8 @@ public class ProductList_Adapter extends FirebaseRecyclerAdapter<Product,Product
 
         String id=getRef(position).getKey();
         holder.p_name.setText(model.getName());
+        holder.total.setText("₹" +model.getSelling_price());
+        holder.color.setText(model.getDetails());
         Picasso.get().load(model.getImg()).into(holder.p_img);
 
         holder.iv_edit.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +74,7 @@ public class ProductList_Adapter extends FirebaseRecyclerAdapter<Product,Product
     class ProductList_Adapter_View extends RecyclerView.ViewHolder {
 
         ImageView iv_edit,iv_delete,p_img;
-        TextView p_name;
+        TextView p_name,total,color;
         LinearLayout ll_rel;
 
         public ProductList_Adapter_View(@NonNull View itemView) {
@@ -80,6 +82,8 @@ public class ProductList_Adapter extends FirebaseRecyclerAdapter<Product,Product
             p_img=itemView.findViewById(R.id.p_img);
             iv_edit=itemView.findViewById(R.id.iv_edit);
             iv_delete=itemView.findViewById(R.id.iv_delete);
+            color=itemView.findViewById(R.id.color);
+            total=itemView.findViewById(R.id.total);
             p_name=itemView.findViewById(R.id.p_name);
             ll_rel=itemView.findViewById(R.id.ll_rel);
         }

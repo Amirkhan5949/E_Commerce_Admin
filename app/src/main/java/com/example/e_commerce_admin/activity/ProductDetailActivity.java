@@ -1,10 +1,5 @@
 package com.example.e_commerce_admin.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_commerce_admin.R;
 import com.example.e_commerce_admin.adapter.Color_Adapter;
@@ -49,22 +49,22 @@ import java.util.Map;
 
 import ss.com.bannerslider.Slider;
 
-public class ProductDetailActivity extends AppCompatActivity  {
+public class ProductDetailActivity extends AppCompatActivity {
+
     private static final int DIALOG_ID = 0;
+    List<Images> imagesList = new ArrayList<>();
     private Slider banner_slider;
-    private RecyclerView rv_color,rv_size;
-    private TextView tv_p_name,tv_detail,et_review,tv_price,
-            tv_SellingPrice,tv_mrp,ṭv_offer;
+    private RecyclerView rv_color, rv_size;
+    private TextView tv_p_name, tv_detail,
+            tv_SellingPrice, tv_mrp, ṭv_offer,tv_supercategory,tv_category,tv_brand;
     private ImageView iv_list;
     private List_Adapter adapter;
     private DatabaseReference productListRef = FirebaseDatabase.getInstance().getReference().child(FirebaseConstants.ProductRecommendedList.key);
-
     private List<Size> selectedSize = new ArrayList<>();
     private List<Color> selectedColor = new ArrayList<>();
     private List<Color> list = new ArrayList<>();
-     List<Images> imagesList=new ArrayList<>();
     private List<ProductLists> selectedProductLists = new ArrayList<>();
-    private List<ProductLists> productLists =new ArrayList<>();
+    private List<ProductLists> productLists = new ArrayList<>();
 
 
     private Color_Adapter colorAdapter;
@@ -73,7 +73,7 @@ public class ProductDetailActivity extends AppCompatActivity  {
     private String id;
 
     private MainSliderAdapter mainSliderAdapter;
-    private RecyclerView rv_review;
+
     private Size_Adapter size_adapter;
 
     private DialogPlus dialog;
@@ -93,9 +93,9 @@ public class ProductDetailActivity extends AppCompatActivity  {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             productLists.add(dataSnapshot.getValue(ProductLists.class));
-                            Log.i("sfsfdgd", "onDataChange: "+ productLists.toString());
+                            Log.i("sfsfdgd", "onDataChange: " + productLists.toString());
                         }
 
                     }
@@ -107,8 +107,6 @@ public class ProductDetailActivity extends AppCompatActivity  {
                 });
 
 
-
-
         iv_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,13 +116,13 @@ public class ProductDetailActivity extends AppCompatActivity  {
 
 
         rv_size.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        size_adapter = new Size_Adapter(getSize(),selectedSize);
+        size_adapter = new Size_Adapter(getSize(), selectedSize);
         rv_size.setAdapter(size_adapter);
 
-        Map<String,Size> size = product.getSize();
-        if(size!=null&&size.size()>0){
+        Map<String, Size> size = product.getSize();
+        if (size != null && size.size() > 0) {
             List<Size> sizes = new ArrayList<>();
-            for (Map.Entry<String,Size> entry : size.entrySet()) {
+            for (Map.Entry<String, Size> entry : size.entrySet()) {
                 sizes.add(entry.getValue());
             }
             selectedSize.addAll(sizes);
@@ -133,20 +131,20 @@ public class ProductDetailActivity extends AppCompatActivity  {
         }
 
 
-        Map<String,Color> color = product.getColor();
-        if(color!=null&&color.size()>0){
+        Map<String, Color> color = product.getColor();
+        if (color != null && color.size() > 0) {
             List<Color> colors = new ArrayList<>();
-            for (Map.Entry<String,Color> entry : color.entrySet()) {
+            for (Map.Entry<String, Color> entry : color.entrySet()) {
                 colors.add(entry.getValue());
             }
             list.clear();
             list.addAll(colors);
         }
 
-        Map<String,Color> selectedColors = product.getSelectedColor();
-        if(selectedColors!=null&&selectedColors.size()>0){
+        Map<String, Color> selectedColors = product.getSelectedColor();
+        if (selectedColors != null && selectedColors.size() > 0) {
             List<Color> colors = new ArrayList<>();
-            for (Map.Entry<String,Color> entry : selectedColors.entrySet()) {
+            for (Map.Entry<String, Color> entry : selectedColors.entrySet()) {
                 colors.add(entry.getValue());
             }
             selectedColor.addAll(colors);
@@ -154,17 +152,15 @@ public class ProductDetailActivity extends AppCompatActivity  {
         }
 
 
-
-
         Map<String, Images> imagesMap = product.getImage();
-        Log.i("ettfbgfff", "onCreate: "+product.getImage().toString());
-        if (imagesMap!=null&imagesMap.size()>0) {
+        Log.i("ettfbgfff", "onCreate: " + product.getImage().toString());
+        if (imagesMap != null & imagesMap.size() > 0) {
             List<Images> images = new ArrayList<>();
             for (Map.Entry<String, Images> entry : imagesMap.entrySet()) {
                 images.add(entry.getValue());
             }
 
-            Log.i("ettfbgf", "onCreate: "+images.toString());
+            Log.i("ettfbgf", "onCreate: " + images.toString());
             imagesList.addAll(images);
 
             banner_slider.setAdapter(new MainSliderAdapter(images));
@@ -173,21 +169,21 @@ public class ProductDetailActivity extends AppCompatActivity  {
     }
 
     private void createDialog() {
-       dialog = DialogPlus.newDialog(iv_list.getContext())
+        dialog = DialogPlus.newDialog(iv_list.getContext())
                 .setContentHolder(new ViewHolder(R.layout.list))
                 .setCancelable(false)
                 .setGravity(Gravity.CENTER)
                 .setMargin
-                        (utils.dpToPx(iv_list.getContext(),20),
-                                utils.dpToPx(iv_list.getContext(),150),
-                                utils.dpToPx(iv_list.getContext(),20),
-                                utils.dpToPx(iv_list.getContext(),150))
+                        (utils.dpToPx(iv_list.getContext(), 20),
+                                utils.dpToPx(iv_list.getContext(), 150),
+                                utils.dpToPx(iv_list.getContext(), 20),
+                                utils.dpToPx(iv_list.getContext(), 150))
                 .create();
 
 
         View viewholder = dialog.getHolderView();
-        Button btn_cancel=viewholder.findViewById(R.id.btn_cancel);
-        Button btn_ok=viewholder.findViewById(R.id.btn_ok);
+        Button btn_cancel = viewholder.findViewById(R.id.btn_cancel);
+        Button btn_ok = viewholder.findViewById(R.id.btn_ok);
 
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,23 +198,22 @@ public class ProductDetailActivity extends AppCompatActivity  {
 
                 Map<String, ProductLists> recommendedMap = new HashMap<>();
 
-                Log.i("sdjbcnskj", "onClick: "+selectedProductLists.toString());
+                Log.i("sdjbcnskj", "onClick: " + selectedProductLists.toString());
                 selectedProductLists = adapter.getSelectedProductLists();
-                for (ProductLists recommended : selectedProductLists){
+                for (ProductLists recommended : selectedProductLists) {
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                             .child(FirebaseConstants.Product.key)
                             .child(id)
                             .child(FirebaseConstants.Product.SelectedProductList)
                             .push();
 
-                    recommendedMap.put(reference.getKey(),recommended);
+                    recommendedMap.put(reference.getKey(), recommended);
                 }
 
-                Map<String,Object> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>();
 
 
-
-                map.put(FirebaseConstants.Product.SelectedProductList,recommendedMap);
+                map.put(FirebaseConstants.Product.SelectedProductList, recommendedMap);
 
 
                 loader.show();
@@ -233,20 +228,18 @@ public class ProductDetailActivity extends AppCompatActivity  {
                             }
                         });
 
-                Map<String,Object> objectMap = new HashMap<>();
-                for(ProductLists productLists : productLists){
-                    boolean flag =  check(productLists);
-                    if(flag){
-                        Log.i("sjdknfksjd", "true: "+product.toString());
-                        objectMap.put(productLists.getId()+"/"+FirebaseConstants.ProductRecommendedList.Product+"/"+id,product);
-                    }
-                    else {
+                Map<String, Object> objectMap = new HashMap<>();
+                for (ProductLists productLists : productLists) {
+                    boolean flag = check(productLists);
+                    if (flag) {
+                        Log.i("sjdknfksjd", "true: " + product.toString());
+                        objectMap.put(productLists.getId() + "/" + FirebaseConstants.ProductRecommendedList.Product + "/" + id, product);
+                    } else {
                         Log.i("sjdknfksjd", "false: ");
-                        objectMap.put(productLists.getId()+"/"+FirebaseConstants.ProductRecommendedList.Product+"/"+id,null);
+                        objectMap.put(productLists.getId() + "/" + FirebaseConstants.ProductRecommendedList.Product + "/" + id, null);
                     }
 
                 }
-
 
 
 //                Log.i("sdjfhsdvsv", "map : "+objectMap.toString());
@@ -266,11 +259,10 @@ public class ProductDetailActivity extends AppCompatActivity  {
                 });
 
 
-
             }
         });
         RecyclerView rv_list = viewholder.findViewById(R.id.rv_list);
-        rv_list.setLayoutManager(new LinearLayoutManager(rv_list.getContext(),LinearLayoutManager.VERTICAL,false));
+        rv_list.setLayoutManager(new LinearLayoutManager(rv_list.getContext(), LinearLayoutManager.VERTICAL, false));
 
         FirebaseRecyclerOptions<ProductLists> options =
                 new FirebaseRecyclerOptions.Builder<ProductLists>()
@@ -279,9 +271,9 @@ public class ProductDetailActivity extends AppCompatActivity  {
 
         Map<String, ProductLists> recommendedMap = product.getSelectedProductLists();
 
-        Log.i("dskjchjdsc", "createDialog: "+recommendedMap);
+        Log.i("dskjchjdsc", "createDialog: " + recommendedMap);
 
-        if(recommendedMap!=null&&recommendedMap.size()>0){
+        if (recommendedMap != null && recommendedMap.size() > 0) {
             List<ProductLists> productLists = new ArrayList<>();
             for (Map.Entry<String, ProductLists> entry : recommendedMap.entrySet()) {
                 productLists.add(entry.getValue());
@@ -291,7 +283,7 @@ public class ProductDetailActivity extends AppCompatActivity  {
         }
 
 
-        adapter=new List_Adapter(options, selectedProductLists);
+        adapter = new List_Adapter(options, selectedProductLists);
         rv_list.setAdapter(adapter);
 
 
@@ -300,42 +292,46 @@ public class ProductDetailActivity extends AppCompatActivity  {
     private void init() {
 
         loader = new Loader(this);
-        banner_slider=findViewById(R.id.banner_slider);
-        tv_SellingPrice=findViewById(R.id.tv_SellingPrice);
-        tv_mrp=findViewById(R.id.tv_mrp);
-        ṭv_offer=findViewById(R.id.ṭv_offer);
-        iv_list=findViewById(R.id.iv_list);
-        tv_p_name=findViewById(R.id.tv_p_name);
-        rv_size=findViewById(R.id.rv_size);
-        tv_detail=findViewById(R.id.tv_details);
-        et_review=findViewById(R.id.et_review);
-        tv_price=findViewById(R.id.tv_rs);
-        rv_color=findViewById(R.id.rv_color);
+        banner_slider = findViewById(R.id.banner_slider);
+        tv_SellingPrice = findViewById(R.id.tv_SellingPrice);
+        tv_brand = findViewById(R.id.tv_brand);
+        tv_supercategory = findViewById(R.id.tv_supercategory);
+        tv_category = findViewById(R.id.tv_category);
+        tv_mrp = findViewById(R.id.tv_mrp);
+        ṭv_offer = findViewById(R.id.ṭv_offer);
+        iv_list = findViewById(R.id.iv_list);
+        tv_p_name = findViewById(R.id.tv_p_name);
+        rv_size = findViewById(R.id.rv_size);
+        tv_detail = findViewById(R.id.tv_details);
+
+        rv_color = findViewById(R.id.rv_color);
 
         id = getIntent().getStringExtra("id");
         product = gson.fromJson(getIntent().getStringExtra("product"), Product.class);
 
 
         tv_p_name.setText(product.getName());
-        tv_price.setText("₹"+product.getSelling_price());
-        int a=((Integer.parseInt(product.getMrp_price())-Integer.parseInt(product.getSelling_price()))*100)
-                /Integer.parseInt(product.getMrp_price());
-        ṭv_offer.setText(""+(Integer.parseInt(product.getMrp_price())-Integer.parseInt(product.getSelling_price())));
-        tv_SellingPrice.setText("₹"+a+"");
-        tv_mrp.setText("₹"+product.getMrp_price()+"");
+
+        tv_category.setText("Category :-  "+product.getCategory());
+        tv_supercategory.setText("SuperCategory :- "+product.getSuper_category());
+        tv_brand.setText("Brand :- "+product.getBrand());
+
+
+
+         int a = ((Integer.parseInt(product.getMrp_price()) - Integer.parseInt(product.getSelling_price())) * 100)
+                / Integer.parseInt(product.getMrp_price());
+        ṭv_offer.setText("" + (Integer.parseInt(product.getMrp_price()) - Integer.parseInt(product.getSelling_price()))+"% off");
+        tv_SellingPrice.setText("₹" + a + "");
+        tv_mrp.setText("₹" + product.getMrp_price() + "");
         tv_detail.setText(product.getDetails());
 
-
-        rv_review=findViewById(R.id.rv_review);
-        rv_review.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        rv_review.setAdapter(new ProductReview_Adapter());
 
     }
 
     private void setUpColor() {
         getcolor();
         rv_color.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        colorAdapter = new Color_Adapter(list,selectedColor ,new Color_Adapter.ClickCallBack() {
+        colorAdapter = new Color_Adapter(list, selectedColor, new Color_Adapter.ClickCallBack() {
             @Override
             public void click(int i) {
                 ColorPickerDialog.newBuilder()
@@ -351,19 +347,18 @@ public class ProductDetailActivity extends AppCompatActivity  {
     }
 
 
-    boolean check(ProductLists model){
+    boolean check(ProductLists model) {
 
-        Log.i("sdghhs", "check: "+model.getId());
-        Log.i("sdghhs", "check: "+selectedProductLists.toString());
+        Log.i("sdghhs", "check: " + model.getId());
+        Log.i("sdghhs", "check: " + selectedProductLists.toString());
 
-        for(ProductLists recommended : selectedProductLists){
-            if(model.getId().equals(recommended.getId())){
+        for (ProductLists recommended : selectedProductLists) {
+            if (model.getId().equals(recommended.getId())) {
                 return true;
             }
         }
         return false;
     }
-
 
 
     @Override
@@ -375,7 +370,7 @@ public class ProductDetailActivity extends AppCompatActivity  {
     @Override
     protected void onStop() {
         super.onStop();
-        if(adapter!=null)
+        if (adapter != null)
             adapter.startListening();
     }
 
@@ -389,6 +384,7 @@ public class ProductDetailActivity extends AppCompatActivity  {
         list.add(new Size("Double Extra Large"));
         return list;
     }
+
     private void getcolor() {
         list.add(new Color("#000000"));
         list.add(new Color("#FF113F"));
@@ -398,4 +394,4 @@ public class ProductDetailActivity extends AppCompatActivity  {
         list.add(new Color("#FFC107"));
         list.add(new Color("#000000"));
     }
- }
+}

@@ -18,7 +18,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="256dp"
+            android:layout_height="550dp"
             android:id="@+id/appbar"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -106,6 +106,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/dark_gray"/>
+
+
                 <LinearLayout
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="16dp"
@@ -121,7 +127,7 @@
                         android:fontFamily="@font/bold"
                         android:text="Product Name"
                         android:textColor="@color/black"
-                        android:textSize="24sp" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:layout_marginHorizontal="8dp"
@@ -134,8 +140,6 @@
 
 
                 </LinearLayout>
-
-
 
                 <LinearLayout
                     android:gravity="center_vertical"
@@ -186,7 +190,7 @@
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                         android:layout_height="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="14% off"
                         android:textColor="@color/colorDarkblue"
                         android:fontFamily="@font/bold"
@@ -228,6 +232,50 @@
 
 
                 <TextView
+                    android:layout_marginBottom="15dp"
+                    android:id="@+id/tv_supercategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                     android:text="SuperCategory"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/simple"
+                    android:textSize="20sp" />
+                <TextView
+                    android:layout_marginBottom="15dp"
+                    android:id="@+id/tv_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                     android:text="Category"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/simple"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_marginBottom="15dp"
+                    android:id="@+id/tv_brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="Brand"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/simple"
+                    android:textSize="20sp" />
+
+
+
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/dark_gray"/>
+
+
+                <TextView
+                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="16dp"
                     android:layout_width="wrap_content"
@@ -235,7 +283,7 @@
                     android:text="Color"
                     android:fontFamily="@font/bold"
                     android:textColor="@color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="20sp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginHorizontal="16dp"
@@ -243,13 +291,16 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/rv_color"/>
 
+
+
                 <TextView
+                    android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:text="Size"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -263,52 +314,36 @@
 
 
 
-
-
-                <TextView
+                <LinearLayout
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="@font/bold"
-                    android:text="Description"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:text="White t-shirt this will suit on you"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginBottom="15dp"
+                        android:fontFamily="@font/bold"
+                        android:text="Description"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:fontFamily="@font/bold"
-                    android:text="Reviews"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:layout_marginBottom="20sp"
+                        android:id="@+id/tv_details"
+                        android:fontFamily="@font/simple"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="White t-shirt this will suit on you"
+                        android:textSize="16sp" />
 
-                <EditText
-                    android:layout_marginBottom="10dp"
-                    android:id="@+id/et_review"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@null"
-                    android:hint="Write Yours"
-                    android:textColorHint="@color/blue"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_review"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white" />
+                </LinearLayout>
+
 
 
             </LinearLayout>
@@ -320,37 +355,5 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <LinearLayout
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Price"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$1500"
-                android:textColor="@color/blue"
-                android:id="@+id/tv_rs"
-                android:textSize="18sp"/>
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
 
 </LinearLayout>
