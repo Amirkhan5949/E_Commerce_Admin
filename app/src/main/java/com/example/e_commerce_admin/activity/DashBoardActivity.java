@@ -26,7 +26,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import static androidx.core.view.GravityCompat.START;
@@ -81,6 +84,24 @@ public class DashBoardActivity extends AppCompatActivity {
 
         textView1 = ll_layout.findViewById(R.id.name);
         textView2 = ll_layout.findViewById(R.id.email);
+
+
+        FirebaseDatabase.getInstance().getReference()
+                .child("Admin")
+                .child(FirebaseAuth.getInstance().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.i("dsfsfs", "onDataChange: "+snapshot.toString());
+                        textView1.setText(snapshot.child("Username").getValue().toString());
+                        textView2.setText(snapshot.child("email").getValue(String.class));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
         textView1.setText("Aamirkhan");
         textView2.setText("AmirDeveloper@123gmail.com");

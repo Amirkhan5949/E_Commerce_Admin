@@ -82,7 +82,8 @@
                                         android:layout_gravity="center"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
-                                        android:src="@drawable/total_busness"
+                                        android:padding="3dp"
+                                        android:src="@drawable/super_cat"
                                         app:tint="@color/white" />
 
                                     <LinearLayout
@@ -98,7 +99,7 @@
                                             android:layout_height="wrap_content"
                                             android:textSize="16sp"
                                             android:fontFamily="@font/bold"
-                                            android:text="$20"
+                                            android:text="100"
                                             android:id="@+id/tv_totalno"
                                             android:textColor="@color/white"
                                             />
@@ -110,7 +111,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:textSize="12sp"
-                                            android:text="Total Business"
+                                            android:text="Super Category"
                                             android:textColor="@color/white"
                                             />
 
@@ -138,7 +139,7 @@
                                         android:layout_gravity="center"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
-                                        android:src="@drawable/pending"
+                                        android:src="@drawable/category"
                                         app:tint="@color/white" />
 
                                     <LinearLayout
@@ -155,7 +156,7 @@
                                             android:textSize="16sp"
                                             android:fontFamily="@font/bold"
                                             android:id="@+id/tv_inactiveno"
-                                            android:text="$20"
+                                            android:text="500"
                                             android:textColor="@color/white"
                                             />
 
@@ -166,7 +167,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:textSize="12sp"
-                                            android:text="INACTIVE PRODUCTS"
+                                            android:text="Category"
                                             android:textColor="@color/white"
                                             />
 
@@ -201,7 +202,7 @@
                                         android:layout_gravity="center"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
-                                        android:src="@drawable/appruved"
+                                        android:src="@drawable/brand"
                                         app:tint="@color/white" />
 
                                     <LinearLayout
@@ -217,7 +218,7 @@
                                             android:layout_height="wrap_content"
                                             android:textSize="16sp"
                                             android:fontFamily="@font/bold"
-                                            android:text="$20"
+                                            android:text="200"
                                             android:id="@+id/tv_approvedno"
                                             android:textColor="@color/white"
                                             />
@@ -229,7 +230,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:textSize="12sp"
-                                            android:text="APPROVED PRODUCTS"
+                                            android:text="Brands"
                                             android:textColor="@color/white"
                                             />
 
@@ -256,7 +257,7 @@
                                         android:layout_gravity="center"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
-                                        android:src="@drawable/inactive"
+                                        android:src="@drawable/total_busness"
                                         app:tint="@color/white" />
 
                                     <LinearLayout
@@ -273,7 +274,7 @@
                                             android:textSize="16sp"
                                             android:fontFamily="@font/bold"
                                             android:id="@+id/tv_pendingno"
-                                            android:text="$20"
+                                            android:text="300"
                                             android:textColor="@color/white"
                                             />
 
@@ -284,7 +285,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:textSize="12sp"
-                                            android:text="PENDING PRODUCTS"
+                                            android:text="Orders"
                                             android:textColor="@color/white"
                                             />
 

@@ -71,10 +71,13 @@ public class Order_Adapter extends FirebaseRecyclerAdapter<Order,Order_Adapter.O
         holder.tv_order_rs.setText(model.getProduct().getSelling_price());
         holder.tv_name.setText(model.getProduct().getName());
         holder.tv_description.setText(model.getProduct().getDetails());
-        holder.tv_size.setText(model.getProduct().getSize().toString());
+        holder.tv_size.setText(model.getSize());
+        holder.colorview.setBackgroundColor(android.graphics.Color.parseColor(model.getColor()+""));
         holder.tv_sellingp.setText(model.getProduct().getSelling_price());
         holder.tv_mrp.setText(model.getProduct().getMrp_price());
-        holder.tv_quantity.setText(model.getQuantity() + "");
+        holder.tv_quantity.setText(model.getQuantity()+"");
+
+        Log.i("fsxfsxfxc", "onBindViewHolder: "+model.getProduct().getSize());
 
         holder.tv_status.setText(model.getOrder_status());
 

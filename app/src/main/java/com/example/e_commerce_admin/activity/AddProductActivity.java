@@ -41,6 +41,7 @@ import com.example.e_commerce_admin.utils.Loader;
 import com.example.e_commerce_admin.utils.PermissionHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,13 +65,14 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 import static com.example.e_commerce_admin.utils.PermissionHelper.setUpPermission;
+
 public class AddProductActivity extends AppCompatActivity implements ColorPickerDialogListener, View.OnClickListener {
 
     private static final int DIALOG_ID = 0;
     private Spinner supercat_spinner, cat_spinner, brand_spinner;
     private RecyclerView rv_size, rv_color;
     private ImageView iv_back, iv_first, iv_2nd, iv_3rd, iv_4th, iv_5th, iv_add;
-    private EditText et_MrpPrice,et_SellingPrice, et_detail,et_name;
+    private EditText et_MrpPrice, et_SellingPrice, et_detail, et_name;
     private TextView tv_save;
     private LottieAnimationView shoftLoader;
     private LinearLayout ll_main;
@@ -86,7 +88,6 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
     private Product product;
     private Gson gson = new Gson();
     private String type, id;
-
 
 
     private Size_Adapter size_adapter;
@@ -116,12 +117,10 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
 
         init();
         getSuperCategory();
-        getCategory();
+//        getCategory();
         getBrand();
         initSpinnerListener();
         setUpColor();
-
-
 
 
         adapter = new SuperCategoryAdapter(supercat_list);
@@ -134,7 +133,7 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
         brand_spinner.setAdapter(brandAdapter);
 
         rv_size.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        size_adapter = new Size_Adapter(getSize(),selectedSize);
+        size_adapter = new Size_Adapter(getSize(), selectedSize);
         rv_size.setAdapter(size_adapter);
 
 
@@ -161,10 +160,10 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
             et_SellingPrice.setText(product.getSelling_price());
             et_detail.setText(product.getDetails());
 
-            Map<String,Size> size = product.getSize();
-            if(size!=null&&size.size()>0){
+            Map<String, Size> size = product.getSize();
+            if (size != null && size.size() > 0) {
                 List<Size> sizes = new ArrayList<>();
-                for (Map.Entry<String,Size> entry : size.entrySet()) {
+                for (Map.Entry<String, Size> entry : size.entrySet()) {
                     sizes.add(entry.getValue());
                 }
                 selectedSize.addAll(sizes);
@@ -173,21 +172,20 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
             }
 
 
-
-            Map<String,Color> color = product.getColor();
-            if(color!=null&&color.size()>0){
+            Map<String, Color> color = product.getColor();
+            if (color != null && color.size() > 0) {
                 List<Color> colors = new ArrayList<>();
-                for (Map.Entry<String,Color> entry : color.entrySet()) {
+                for (Map.Entry<String, Color> entry : color.entrySet()) {
                     colors.add(entry.getValue());
                 }
                 list.clear();
                 list.addAll(colors);
             }
 
-            Map<String,Color> selectedColors = product.getSelectedColor();
-            if(selectedColors!=null&selectedColors.size()>0){
+            Map<String, Color> selectedColors = product.getSelectedColor();
+            if (selectedColors != null & selectedColors.size() > 0) {
                 List<Color> colors = new ArrayList<>();
-                for (Map.Entry<String,Color> entry : selectedColors.entrySet()) {
+                for (Map.Entry<String, Color> entry : selectedColors.entrySet()) {
                     colors.add(entry.getValue());
                 }
                 selectedColor.addAll(colors);
@@ -195,19 +193,18 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
             }
 
 
-
-            Map<String,Images> imagesMap = product.getImage();
-            if (imagesMap!=null&imagesMap.size()>0){
-                List <Images>images =new ArrayList<>();
-                for (Map.Entry<String,Images> entry : imagesMap.entrySet()){
-                    images.add (entry.getValue());
+            Map<String, Images> imagesMap = product.getImage();
+            if (imagesMap != null & imagesMap.size() > 0) {
+                List<Images> images = new ArrayList<>();
+                for (Map.Entry<String, Images> entry : imagesMap.entrySet()) {
+                    images.add(entry.getValue());
                 }
 
-                Log.i("gfgftdfdf", "onCreate: "+images.toString());
+                Log.i("gfgftdfdf", "onCreate: " + images.toString());
 
 
-                for (int i = 0 ; i < images.size() ; i++){
-                    switch (i){
+                for (int i = 0; i < images.size(); i++) {
+                    switch (i) {
                         case 0:
                             Picasso.get().load(images.get(i).getImg()).into(iv_first);
                             break;
@@ -238,7 +235,7 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
     private void setUpColor() {
         getcolor();
         rv_color.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        colorAdapter = new Color_Adapter(list,selectedColor ,new Color_Adapter.ClickCallBack() {
+        colorAdapter = new Color_Adapter(list, selectedColor, new Color_Adapter.ClickCallBack() {
             @Override
             public void click(int i) {
                 ColorPickerDialog.newBuilder()
@@ -269,6 +266,43 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 supercatSelecteditem = position;
+
+                String s = supercat_list.get(position).getSuper_category_id();
+                Log.i("dhfcvd", "onDataChange: "+s);
+
+                FirebaseDatabase.getInstance().getReference()
+                        .child(FirebaseConstants.Category.key)
+                        .orderByChild(FirebaseConstants.Category.super_id).equalTo(s).
+                        addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Log.i("dhfcvd", "onDataChange: "+snapshot.toString());
+                                cat_list.clear();
+                                for (DataSnapshot  dataSnapshot : snapshot.getChildren())
+                                    cat_list.add(dataSnapshot.getValue(Category.class));
+
+
+                                categoryAdapter.notifyDataSetChanged();
+
+                                if (type.equals("edit")) {
+                                    getSelectedCategory(new SelectCategoryCallback() {
+                                        @Override
+                                        public void get(boolean found, int index, Category category) {
+                                            cat_spinner.setSelection(index);
+                                        }
+                                    });
+                                }
+
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
             }
 
             @Override
@@ -309,7 +343,7 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
                         shoftLoader.setVisibility(View.GONE);
                         ll_main.setVisibility(View.VISIBLE);
 
-                        if (type.equals("edit")){
+                        if (type.equals("edit")) {
                             getSelectedBrand(new SelectBrandCallback() {
                                 @Override
                                 public void get(boolean found, int index, Brand brand) {
@@ -327,40 +361,40 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
 
     }
 
-    private void getCategory() {
-        Log.i("rrgrgf", "getBrand: " + 2433);
-
-        ll_main.setVisibility(View.GONE);
-        shoftLoader.setVisibility(View.VISIBLE);
-        FirebaseDatabase.getInstance().getReference()
-                .child(FirebaseConstants.Category.key)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren())
-                            cat_list.add(dataSnapshot.getValue(Category.class));
-                        Log.i("rrgrgf", "onDataChange: " + cat_list.toString());
-                        categoryAdapter.notifyDataSetChanged();
-                        shoftLoader.setVisibility(View.GONE);
-                        ll_main.setVisibility(View.VISIBLE);
-
-                        if (type.equals("edit")){
-                            getSelectedCategory(new SelectCategoryCallback() {
-                                @Override
-                                public void get(boolean found, int index, Category category) {
-                                    cat_spinner.setSelection(index);
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-    }
+//    private void getCategory() {
+//        Log.i("rrgrgf", "getBrand: " + 2433);
+//
+//        ll_main.setVisibility(View.GONE);
+//        shoftLoader.setVisibility(View.VISIBLE);
+//        FirebaseDatabase.getInstance().getReference()
+//                .child(FirebaseConstants.Category.key)
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        for (DataSnapshot dataSnapshot : snapshot.getChildren())
+//                            cat_list.add(dataSnapshot.getValue(Category.class));
+//                        Log.i("rrgrgf", "onDataChange: " + cat_list.toString());
+//                        categoryAdapter.notifyDataSetChanged();
+//                        shoftLoader.setVisibility(View.GONE);
+//                        ll_main.setVisibility(View.VISIBLE);
+//
+//                        if (type.equals("edit")) {
+//                            getSelectedCategory(new SelectCategoryCallback() {
+//                                @Override
+//                                public void get(boolean found, int index, Category category) {
+//                                    cat_spinner.setSelection(index);
+//                                }
+//                            });
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//
+//    }
 
     private void getSuperCategory() {
 
@@ -373,16 +407,20 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren())
                             supercat_list.add(dataSnapshot.getValue(SuperCategory.class));
-                        adapter.notifyDataSetChanged();
-                        shoftLoader.setVisibility(View.GONE);
-                        ll_main.setVisibility(View.VISIBLE);
 
-                        if(type.equals("edit")){
+
+                        adapter.notifyDataSetChanged();
+
+
+
+
+
+                        if (type.equals("edit")) {
                             getSelectedSuperCategory(new SelectSuperCategoryCallback() {
                                 @Override
                                 public void get(boolean found, int index, SuperCategory superCategory) {
-                                   if (found)
-                                       supercat_spinner.setSelection(index);
+                                    if (found)
+                                        supercat_spinner.setSelection(index);
                                 }
                             });
                         }
@@ -429,44 +467,44 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
     }
 
     private void getSelectedSuperCategory(SelectSuperCategoryCallback seletecSperCategoryCallback) {
-        if (supercat_list != null&&supercat_list.size()>0) {
-            for (int i =0 ; i < supercat_list.size() ; i++){
-                Log.i("hashhas", "product: "+product.getSuper_category_id());
-                Log.i("hashhas", "supercat_list: "+supercat_list.get(i).getSuper_category_id());
-                if(product.getSuper_category_id().equals(supercat_list.get(i).getSuper_category_id())){
-                    seletecSperCategoryCallback.get(true,i,supercat_list.get(i));
+        if (supercat_list != null && supercat_list.size() > 0) {
+            for (int i = 0; i < supercat_list.size(); i++) {
+                Log.i("hashhas", "product: " + product.getSuper_category_id());
+                Log.i("hashhas", "supercat_list: " + supercat_list.get(i).getSuper_category_id());
+                if (product.getSuper_category_id().equals(supercat_list.get(i).getSuper_category_id())) {
+                    seletecSperCategoryCallback.get(true, i, supercat_list.get(i));
                     Log.i("hashhas", "true: ");
                     return;
                 }
             }
         }
-        seletecSperCategoryCallback.get(false,-1,null);
+        seletecSperCategoryCallback.get(false, -1, null);
     }
 
     private void getSelectedCategory(SelectCategoryCallback categoryCallback) {
-        if (cat_list != null&&cat_list.size()>0) {
-            for (int i =0 ; i < cat_list.size() ; i++){
-                if(product.getCategory_id().equals(cat_list.get(i).getCategory_id())){
-                    categoryCallback.get(true,i,cat_list.get(i));
+        if (cat_list != null && cat_list.size() > 0) {
+            for (int i = 0; i < cat_list.size(); i++) {
+                if (product.getCategory_id().equals(cat_list.get(i).getCategory_id())) {
+                    categoryCallback.get(true, i, cat_list.get(i));
                     Log.i("hashhas", "true: ");
                     return;
                 }
             }
         }
-        categoryCallback.get(false,-1,null);
+        categoryCallback.get(false, -1, null);
     }
 
     private void getSelectedBrand(SelectBrandCallback brandCallback) {
-        if (brand_list != null&&brand_list.size()>0) {
-            for (int i =0 ; i < brand_list.size() ; i++){
-                if(product.getBrand_id().equals(brand_list.get(i).getBrand_id())){
-                    brandCallback.get(true,i,brand_list.get(i));
+        if (brand_list != null && brand_list.size() > 0) {
+            for (int i = 0; i < brand_list.size(); i++) {
+                if (product.getBrand_id().equals(brand_list.get(i).getBrand_id())) {
+                    brandCallback.get(true, i, brand_list.get(i));
                     Log.i("hashhas", "true: ");
                     return;
                 }
             }
         }
-        brandCallback.get(false,-1,null);
+        brandCallback.get(false, -1, null);
     }
 
 
@@ -523,7 +561,6 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
         imagePicker.handleActivityResult(resultCode, requestCode, data);
         Uri uri = ImagePickerHelper.handleActivityResult(requestCode, resultCode, data);
         if (uri != null) {
-
 
 
             switch (flag) {
@@ -593,47 +630,36 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
             }
 
 
-
         }
         for (UploadRequest request : uploadRequests) {
-            Log.i("sdfjkdsf", "onActivityResult: "+request.getPayload().getData().toString());
+            Log.i("sdfjkdsf", "onActivityResult: " + request.getPayload().getData().toString());
         }
     }
 
     private void save() {
 
-            if(uploadRequests.size()==0){
-                Toast.makeText(this, "Select image.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if(et_name.getText().toString().length()==0){
-                Toast.makeText(this, "Enter  name...", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            else if(et_MrpPrice.getText().toString().length()==0){
-                Toast.makeText(this, "Enter mrp price.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if(et_SellingPrice.getText().toString().length()==0){
-                Toast.makeText(this, "Enter selling price.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if(et_detail.getText().toString().length()==0){
-                Toast.makeText(this, "Enter detail.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if(colorAdapter.getSelectedColor().size()==0){
-                Toast.makeText(this, "Select color.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if(size_adapter.getSelectedSize().size()==0){
-                Toast.makeText(this, "Select Size.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-
-
+        if (uploadRequests.size() == 0) {
+            Toast.makeText(this, "Select image.", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (et_name.getText().toString().length() == 0) {
+            Toast.makeText(this, "Enter  name...", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (et_MrpPrice.getText().toString().length() == 0) {
+            Toast.makeText(this, "Enter mrp price.", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (et_SellingPrice.getText().toString().length() == 0) {
+            Toast.makeText(this, "Enter selling price.", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (et_detail.getText().toString().length() == 0) {
+            Toast.makeText(this, "Enter detail.", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (colorAdapter.getSelectedColor().size() == 0) {
+            Toast.makeText(this, "Select color.", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (size_adapter.getSelectedSize().size() == 0) {
+            Toast.makeText(this, "Select Size.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
         image = "";
@@ -654,10 +680,10 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
 
             @Override
             public void onNext(@io.reactivex.rxjava3.annotations.NonNull Map<String, String> stringStringMap) {
-                if(image.equals(""))
+                if (image.equals(""))
                     image = stringStringMap.get(FirebaseConstants.Product.img);
                 DatabaseReference imageRef = reference.child(FirebaseConstants.Product.Image).push();
-                productMap.put(FirebaseConstants.Product.Image+"/" + imageRef.getKey(), stringStringMap);
+                productMap.put(FirebaseConstants.Product.Image + "/" + imageRef.getKey(), stringStringMap);
             }
 
             @Override
@@ -668,37 +694,35 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
             @Override
             public void onComplete() {
 
-                for(Size size : size_adapter.getSelectedSize()){
+                for (Size size : size_adapter.getSelectedSize()) {
                     DatabaseReference sizeRef = reference.child(FirebaseConstants.Product.Size).push();
-                    productMap.put(FirebaseConstants.Product.Size+"/" + sizeRef.getKey(), size);
+                    productMap.put(FirebaseConstants.Product.Size + "/" + sizeRef.getKey(), size);
                 }
 
-                for(Color color : colorAdapter.getColor()){
+                for (Color color : colorAdapter.getColor()) {
                     DatabaseReference sizeRef = reference.child(FirebaseConstants.Product.Color).push();
-                    productMap.put(FirebaseConstants.Product.Color+"/" + sizeRef.getKey(), color);
+                    productMap.put(FirebaseConstants.Product.Color + "/" + sizeRef.getKey(), color);
                 }
 
-                for(Color color : colorAdapter.getSelectedColor()){
+                for (Color color : colorAdapter.getSelectedColor()) {
                     DatabaseReference Ref = reference.child(FirebaseConstants.Product.SelectedColor).push();
-                    productMap.put(FirebaseConstants.Product.SelectedColor+"/" + Ref.getKey(), color);
+                    productMap.put(FirebaseConstants.Product.SelectedColor + "/" + Ref.getKey(), color);
                 }
 
-                productMap.put(FirebaseConstants.Product.img,image);
-                productMap.put(FirebaseConstants.Product.super_category_id,supercat_list.get(supercatSelecteditem).getSuper_category_id());
-                productMap.put(FirebaseConstants.Product.super_category,supercat_list.get(supercatSelecteditem).getName());
+                productMap.put(FirebaseConstants.Product.img, image);
+                productMap.put(FirebaseConstants.Product.super_category_id, supercat_list.get(supercatSelecteditem).getSuper_category_id());
+                productMap.put(FirebaseConstants.Product.super_category, supercat_list.get(supercatSelecteditem).getName());
 
-                productMap.put(FirebaseConstants.Product.category_id,cat_list.get(catSelecteditem).getCategory_id());
-                productMap.put(FirebaseConstants.Product.category,cat_list.get(catSelecteditem).getName());
+                productMap.put(FirebaseConstants.Product.category_id, cat_list.get(catSelecteditem).getCategory_id());
+                productMap.put(FirebaseConstants.Product.category, cat_list.get(catSelecteditem).getName());
 
-                productMap.put(FirebaseConstants.Product.brand_id,brand_list.get(brandSelecteditem).getBrand_id());
-                productMap.put(FirebaseConstants.Product.brand,brand_list.get(brandSelecteditem).getName());
+                productMap.put(FirebaseConstants.Product.brand_id, brand_list.get(brandSelecteditem).getBrand_id());
+                productMap.put(FirebaseConstants.Product.brand, brand_list.get(brandSelecteditem).getName());
 
-                productMap.put(FirebaseConstants.Product.name,et_name.getText().toString());
-                productMap.put(FirebaseConstants.Product.items_cross_rs,et_MrpPrice.getText().toString());
-                productMap.put(FirebaseConstants.Product.items_rs,et_SellingPrice.getText().toString());
-                productMap.put(FirebaseConstants.Product.details,et_detail.getText().toString());
-
-
+                productMap.put(FirebaseConstants.Product.name, et_name.getText().toString());
+                productMap.put(FirebaseConstants.Product.items_cross_rs, et_MrpPrice.getText().toString());
+                productMap.put(FirebaseConstants.Product.items_rs, et_SellingPrice.getText().toString());
+                productMap.put(FirebaseConstants.Product.details, et_detail.getText().toString());
 
 
                 reference.updateChildren(productMap)
@@ -745,16 +769,16 @@ public class AddProductActivity extends AppCompatActivity implements ColorPicker
     }
 
     interface SelectSuperCategoryCallback {
-        void get(boolean found,int index,SuperCategory superCategory);
+        void get(boolean found, int index, SuperCategory superCategory);
     }
 
 
     interface SelectCategoryCallback {
-        void get(boolean found,int index,Category category);
+        void get(boolean found, int index, Category category);
     }
 
     interface SelectBrandCallback {
-        void get(boolean found,int index,Brand brand);
+        void get(boolean found, int index, Brand brand);
     }
 
 }

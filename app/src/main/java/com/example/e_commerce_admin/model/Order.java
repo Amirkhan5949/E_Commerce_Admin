@@ -6,6 +6,27 @@ public class Order {
     String ordered_selling_price;
     String payment_type;
     String order_status;
+    String color;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    String size;
+
+
 
     public String getOrder_status() {
         return order_status;
