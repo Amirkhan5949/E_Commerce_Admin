@@ -4,7 +4,7 @@ E-commerce ( electronic commerce ) is the activity of electronically buying or s
 
 # Demo of E_Commerce_Admin
 
- <a style="margin:20;padding:0" href="https://youtu.be/Do_8cIiPids">
+ <a style="margin:20;padding:0" href="https://www.youtube.com/watch?v=efdGy3WSy-8&t=17s">
   <img src="https://raw.githubusercontent.com/mayankkasera/Movie-Stack/master/media/youtube.png" width="200" >
  </a>
 
