@@ -2,6 +2,15 @@
 This is the Admin App where Admin easily add the product 
 E-commerce ( electronic commerce ) is the activity of electronically buying or selling of products on online services or over the Internet 
 
+# Demo of E_Commerce_Admin
+
+ <a style="margin:20;padding:0" href="https://youtu.be/Do_8cIiPids">
+  <img src="https://raw.githubusercontent.com/mayankkasera/Movie-Stack/master/media/youtube.png" width="200" >
+ </a>
+
+  <img width="200px"   src="https://github.com/Amirkhan5949/E_Commerce_Admin/blob/master/app/src/main/gif/gif.gif"></br>
+
+
 Features :-
 * Online shopping with E_Commerce_User is very easy as you get to shop from the comfort of your home and get products delivered
   at your doorstep
